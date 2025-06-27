@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Internship Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+     
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --accent: #00cec9;
+      --light: #2d3436;
+      --dark: #1e272e;
+      --success: #00b894;
+      --text: #dfe6e9;
+      --text-light: #b2bec3;
+      --card-bg: rgba(45, 52, 54, 0.8);
+      --nav-bg: rgba(30, 39, 46, 0.95);
+      --nav-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+      --table-bg: rgba(30, 39, 46, 0.5);
+      --table-hover: rgba(108, 92, 231, 0.1);
+      --skill-card-bg: rgba(30, 39, 46, 0.7);
+      --timeline-bg: rgba(30, 39, 46, 0.8);
+      --footer-bg: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+      --header-bg: linear-gradient(135deg, var(--dark) 0%, var(--light) 100%);
+      --body-bg: linear-gradient(135deg, #1e272e 0%, #2d3436 100%);
+      --bg-circle: rgba(108, 92, 231, 0.1);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    }
+
+    
+    [data-theme="light"] {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --text: #2b2d42;
+      --text-light: #8d99ae;  
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --nav-bg: rgba(255, 255, 255, 0.95);
+      --nav-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      --table-bg: white;
+      --table-hover: rgba(67, 97, 238, 0.03);
+      --skill-card-bg: white;
+      --timeline-bg: white;
+      --footer-bg: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 100%);
+      --header-bg: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      --body-bg: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      --bg-circle: rgba(67, 97, 238, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--body-bg);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.6;
+    }
+
+ 
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--bg-circle);
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    
+    nav {
+      position: sticky;
+      top: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--nav-shadow);
+      z-index: 1000;
+      padding: 1rem 0;
+      transition: var(--transition);
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+
+    nav.scrolled {
+      padding: 0.5rem 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--text);
+      transition: var(--transition);
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    nav a:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary);
+      transition: var(--transition);
+    }
+
+    nav a:hover:after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .theme-toggle, .language-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .theme-toggle:hover, .language-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .theme-toggle i, .language-toggle i {
+      transition: var(--transition);
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+
+    header {
+      text-align: center;
+      padding: 6rem 20px 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--header-bg);
+      z-index: -1;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+
+    header h1 {
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+      color: white;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s 0.2s forwards;
+    }
+
+    header p {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s 0.4s forwards;
+    }
+
+    header strong {
+      color: var(--accent);
+      font-weight: 600;
+      position: relative;
+    }
+
+    header strong::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--success);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease;
+    }
+
+    header strong:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+  
+    .company-logo {
+  height: 1.2em;
+  vertical-align: middle;
+  margin-left: 8px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  transition: var(--transition);
+}
+
+.company-logo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
+
+header strong a {
+  display: inline-flex;
+  align-items: center;
+}
+
+    .section {
+      background: var(--card-bg);
+      margin: 3rem auto;
+      padding: 3rem 2rem;
+      width: 90%;
+      max-width: 1100px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    [data-theme="light"] .section {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: none;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--success));
+    }
+
+    .section.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section h2 {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: var(--accent);
+      position: relative;
+      display: inline-block;
+    }
+
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50%;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+   
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.95rem;
+      margin: 2rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="light"] table {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    thead {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    th {
+      padding: 1.2rem;
+      text-align: left;
+      font-weight: 500;
+      position: relative;
+    }
+
+    th:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    td {
+      padding: 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      transition: var(--transition);
+      color: var(--text-light);
+      cursor: pointer;
+    }
+
+    [data-theme="light"] td {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      color: var(--text);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr {
+      transition: var(--transition);
+      background: var(--table-bg);
+    }
+
+    tbody tr:hover {
+      transform: translateX(5px);
+      box-shadow: 5px 0 0 0 var(--accent);
+    }
+
+    tbody tr:hover td {
+      background: var(--table-hover);
+      color: var(--text);
+    }
+
+  
+    td:first-child {
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 10px;
+      background: var(--footer-bg);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      margin-top: 4rem;
+      position: relative;
+      clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+    }
+
+    footer p {
+      margin-bottom: 1.5rem;
+    }
+
+    footer a {
+      color: var(--success);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      color: white;
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      header p {
+        font-size: 1.1rem;
+      }
+      
+      nav ul {
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .section {
+        padding: 2rem 1rem;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .nav-buttons {
+        margin-top: 0.5rem;
+      }
+    }
+
+    
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+   
+    .progress-container {
+      margin: 3rem 0;
+    }
+
+    .progress-title {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    [data-theme="light"] .progress-bar {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--primary), var(--success));
+      border-radius: 5px;
+      width: 0;
+      transition: width 1.5s ease-out;
+    }
+
+    /* Skills grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .skill-card {
+      background: var(--skill-card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    [data-theme="light"] .skill-card {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border: none;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      background: rgba(30, 39, 46, 0.9);
+    }
+
+    [data-theme="light"] .skill-card:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      background: white;
+    }
+
+    .skill-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .skill-name {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .skill-level {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 0.5rem;
+    }
+
+   
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 3rem auto;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--primary), var(--success));
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -1.5px;
+      border-radius: 3px;
+    }
+
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-item.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-item:nth-child(odd) {
+      left: 0;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+    }
+
+    .timeline-content {
+      padding: 20px;
+      background: var(--timeline-bg);
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    [data-theme="light"] .timeline-content {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      border: none;
+      background: white;
+    }
+
+    .timeline-content::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 30px;
+      z-index: 1;
+      transform: rotate(45deg);
+      background: var(--timeline-bg);
+      box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.2);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    [data-theme="light"] .timeline-content::after {
+      background: white;
+      box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.05);
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content::after {
+      right: -10px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content::after {
+      left: -10px;
+    }
+
+    .timeline-date {
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      right: -10px;
+      background: linear-gradient(to right, var(--primary), var(--success));
+      border: 3px solid var(--dark);
+      border-radius: 50%;
+      z-index: 2;
+      top: 30px;
+      box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.2);
+    }
+
+    [data-theme="light"] .timeline-dot {
+      border: 3px solid white;
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: -10px;
+    }
+
+   
+    @media (max-width: 768px) {
+      .timeline::after {
+        left: 31px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 0;
+      }
+
+      .timeline-content::after {
+        left: 15px !important;
+      }
+
+      .timeline-dot {
+        left: 21px !important;
+      }
+    }
+
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 12px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .modal-close:hover {
+      color: var(--accent);
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .modal-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-image:hover {
+      transform: scale(1.02);
+    }
+
+
+td.clickable {
+  cursor: pointer;
+  position: relative;
+}
+
+td.clickable.has-images::after {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.7;
+  font-size: 0.9em;
+  transition: var(--transition);
+}
+
+td.clickable.has-images:hover::after {
+  opacity: 1;
+}
+
+td.clickable.has-images:hover {
+  background: rgba(108, 92, 231, 0.2) !important;
+}
+
+/* Tooltip styles */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-tooltip]:hover::after {
+  content: '';
+  position: absolute;
+  bottom: calc(100% - 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--dark);
+  z-index: 10;
+  pointer-events: none;
+}
+  </style>
+</head>
+<body>
+
+ 
+  <div class="bg-animation" id="bg-animation"></div>
+
+  
+  <div class="modal" id="gameModal">
+    <div class="modal-content">
+      <span class="modal-close" id="modalClose">&times;</span>
+      <h3 class="modal-title" id="modalTitle">Game Screenshots</h3>
+      <div class="modal-images" id="modalImages">
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <ul>
+        <li><a href="#about"><i class="fas fa-user"></i> <span data-translate="about">Sobre</span></a></li>
+        <li><a href="#progress"><i class="fas fa-tasks"></i> <span data-translate="progress">Relatório Semanal</span></a></li>
+        <li><a href="#skills"><i class="fas fa-code"></i> <span data-translate="skills">Habilidades</span></a></li>
+        <li><a href="#evaluation"><i class="fas fa-star"></i> <span data-translate="evaluation">Avaliação</span></a></li>
+      </ul>
+      <div class="nav-buttons">
+        <button class="language-toggle" id="languageToggle" aria-label="Toggle language">
+          <i class="fas fa-language"></i>
+        </button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  
+<header id="about">
+  <h1 data-translate="title">Minha Jornada de Estágio</h1>
+  <p data-translate="subtitle">Olá, eu sou <strong>Ronish</strong>, um desenvolvedor e programador  apaixonado. Esta é minha jornada de 9 semanas na <a href="https://rato-adcc.pt/pt"><strong>Rato - ADCC!<img src="images/logo.png" class="company-logo" alt="RATO-ADCC Logo"></strong></a></p>
+</header>
+
+  <!-- Weekly Progress -->
+  <section class="section" id="progress">
+    <h2><i class="fas fa-calendar-alt"></i> <span data-translate="weekly_progress">Progresso Semanal</span></h2>
+    <p data-translate="weekly_description">Análise detalhada das minhas tarefas semanais, aprendizagens e desafios durante o estágio.</p>
+    
+    <div class="progress-container">
+      <div class="progress-title" data-translate="completion">Conclusão do Estágio</div>
+      <div class="progress-bar">
+        <div class="progress-fill" data-width="100"></div>
+      </div>
+    </div>
+    
+    <table>
+  <thead>
+    <tr>
+      <th data-translate="week">Semana</th>
+      <th data-translate="tasks">Tarefas</th>
+      <th data-translate="learnings">Aprendizados</th>
+      <th data-translate="challenges">Desafios</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td data-translate="week1">Semana 1</td>
+      <td class="clickable" data-week="1" data-translate="week1_tasks">Integração na equipe</td>
+      <td class="clickable" data-week="1" data-translate="week1_learnings">Explorei ferramentas como Joomla (um sistema de gerenciamento de conteúdo para sites)</td>
+      <td class="clickable" data-week="1" data-translate="week1_challenges">Adaptação ao ambiente de trabalho remoto</td>
+    </tr>
+    <tr>
+      <td data-translate="week2">Semana 2</td>
+      <td class="clickable" data-week="2" data-translate="week2_tasks">Stack MERN</td>
+      <td class="clickable" data-week="2" data-translate="week2_learnings">Comecei a aprender a stack MERN (MongoDB, Express, React, Node.js)</td>
+      <td class="clickable" data-week="2" data-translate="week2_challenges">Manter a consistência do código</td>
+    </tr>
+    <tr>
+      <td data-translate="week3">Semana 3</td>
+      <td class="clickable" data-week="3" data-translate="week3_tasks">Aplicação BookStore</td>
+      <td class="clickable" data-week="3" data-translate="week3_learnings">Construí uma aplicação web básica usando a stack MERN e integrei APIs externas com funcionalidade CRUD</td>
+      <td class="clickable" data-week="3" data-translate="week3_challenges">Desafios na implementação eficaz da stack MERN</td>
+    </tr>
+    <tr>
+      <td data-translate="week4">Semana 4</td>
+      <td class="clickable" data-week="4" data-translate="week4_tasks">Jogo Campo Minado</td>
+      <td class="clickable" data-week="4" data-translate="week4_learnings">Criei um jogo baseado em navegador usando HTML, CSS e JavaScript</td>
+      <td class="clickable" data-week="4" data-translate="week4_challenges">Nenhum obstáculo significativo encontrado</td>
+    </tr>
+    <tr>
+      <td data-translate="week5">Semana 5</td>
+      <td class="clickable" data-week="5" data-translate="week5_tasks">Site de Relatório</td>
+      <td class="clickable" data-week="5" data-translate="week5_learnings">Comecei a construir um site pessoal incluindo atualizações de progresso semanal</td>
+      <td class="clickable" data-week="5" data-translate="week5_challenges">Desafios de design e layout</td>
+    </tr>
+    <tr>
+      <td data-translate="week6">Semana 6</td>
+      <td class="clickable" data-week="6" data-translate="week6_tasks">Finalizar Campo Minado</td>
+      <td class="clickable" data-week="6" data-translate="week6_learnings">Aprimorando o design visual e trabalhando em elementos gráficos</td>
+      <td class="clickable" data-week="6" data-translate="week6_challenges">Criar um design atraente e funcional</td>
+    </tr>
+    <tr>
+      <td data-translate="week7">Semana 7</td>
+      <td class="clickable" data-week="7" data-translate="week7_tasks">Correção Jogo de Cartas</td>
+      <td class="clickable" data-week="7" data-translate="week7_learnings">Primeiros passos com Unity para desenvolvimento mobile</td>
+      <td class="clickable" data-week="7" data-translate="week7_challenges">Curva de aprendizado do Unity</td>
+    </tr>
+    <tr>
+      <td data-translate="week8">Semana 8</td>
+      <td class="clickable" data-week="8" data-translate="week8_tasks">Jogo Creative Cards</td>
+      <td class="clickable" data-week="8" data-translate="week8_learnings">Implementando lógica de sorteio aleatório e interações</td>
+      <td class="clickable" data-week="8" data-translate="week8_challenges">Garantir que o sorteio seja verdadeiramente aleatório</td>
+    </tr>
+    <tr>
+      <td data-translate="week9">Semana 9</td>
+      <td class="clickable" data-week="9" data-translate="week9_tasks">Ajustes Finais</td>
+      <td class="clickable" data-week="9" data-translate="week9_learnings">Revisão geral de tudo o que foi aprendido</td>
+      <td class="clickable" data-week="9" data-translate="week9_challenges">Garantir que tudo esteja polido e completo</td>
+    </tr>
+  </tbody>
+</table>
+  </section>
+
+  <!-- Skills Gained -->
+  <section class="section" id="skills">
+    <h2><i class="fas fa-laptop-code"></i> <span data-translate="skills_used">Habilidades Utilizadas</span></h2>
+    <p data-translate="skills_description">Habilidades técnicas utilizadas e adquiridas durante meu período de estágio na Rato - ADCC.</p>
+    
+    <div class="skills-grid">
+      <div class="skill-card floating" style="animation-delay: 0.1s;">
+        <div class="skill-icon"><i class="fab fa-html5"></i></div>
+        <div class="skill-name">HTML5</div>
+        <div class="skill-level" data-translate="advanced">Avançado</div>
+      </div>
+      <div class="skill-card floating" style="animation-delay: 0.2s;">
+        <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
+        <div class="skill-name">CSS3</div>
+        <div class="skill-level" data-translate="advanced">Avançado</div>
+      </div>
+      <div class="skill-card floating" style="animation-delay: 0.3s;">
+        <div class="skill-icon"><i class="fab fa-js"></i></div>
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-level" data-translate="intermediate">Intermediário</div>
+      </div>
+      <div class="skill-card floating" style="animation-delay: 0.4s;">
+        <div class="skill-icon"><i class="fas fa-server"></i></div>
+        <div class="skill-name">MERN stack</div>
+        <div class="skill-level" data-translate="intermediate">Intermediário</div>
+      </div>
+      <div class="skill-card floating" style="animation-delay: 0.5s;">
+        <div class="skill-icon"><i class="fas fa-users"></i></div>
+        <div class="skill-name">Joomla</div>
+        <div class="skill-level" data-translate="intermediate">Intermediário</div>
+      </div>
+    </div>
+  </section>
+
+ 
+  <section class="section" id="evaluation">
+    <h2><i class="fas fa-chart-line"></i> <span data-translate="evaluation_title">Avaliação</span></h2>
+    <p data-translate="evaluation_description">Refletindo sobre meu estágio, adquiri habilidades práticas e insights que moldarão minha carreira.</p>
+    
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date" data-translate="week1_2">Semana 1-2</div>
+          <p data-translate="week1_2_text">Nas primeiras duas semanas, conheci meu mentor e recebi um tour pelo escritório. Embora o ambiente geral fosse acolhedor, senti que o espaço poderia se beneficiar com um pouco mais de privacidade. Também fui informado sobre minhas responsabilidades no estágio e tive minha primeira introdução ao JOOMLA, que foi uma oportunidade emocionante de aprendizado.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date" data-translate="week3_4">Semana 3-4</div>
+          <p data-translate="week3_4_text">Nas semanas seguintes, tive a oportunidade de conhecer um desenvolvedor profissional de stack MERN que ofereceu orientação sobre como aprender efetivamente a stack MERN e sugeriu tarefas práticas para melhorar meu entendimento. Ele foi acessível e solidário durante nossas interações.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date" data-translate="week5_6">Semana 5-6</div>
+          <p data-translate="week5_6_text">Durante estas semanas, mergulhei no desenvolvimento de jogos web, começando com um jogo de campo minado. Foi desafiador criar um design atraente, mas extremamente gratificante ver o jogo tomar forma. Também comecei a trabalhar em meu site pessoal, documentando meu progresso semanal.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date" data-translate="week7_8">Semana 7-8</div>
+          <p data-translate="week7_8_text">Estas semanas foram intensas com múltiplos projetos em andamento. Trabalhei nos gráficos do campo minado, corrigi bugs no jogo de cartas e comecei a aprender Unity para desenvolver um jogo PONG para mobile. Foi desafiador aprender uma nova engine, mas ver o jogo funcionando no celular foi incrível. Também iniciei o "Creative Cards", um jogo que sorteia cartas aleatórias.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date" data-translate="week9">Semana 9</div>
+          <p data-translate="week9_text">A semana final foi dedicada a polir todos os projetos, garantir que tudo estivesse funcionando perfeitamente e concluir este site de relatório. Foi um momento de reflexão sobre todo o progresso feito durante essas 9 semanas e como cada desafio me tornou um desenvolvedor melhor.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 2rem; background: rgba(108, 92, 231, 0.1); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary);">
+      <h3 style="color: var(--accent); margin-bottom: 0.5rem;" data-translate="overall">No geral</h3>
+      <ul style="padding-left: 1.5rem;">
+        <li style="margin-bottom: 0.5rem;" data-translate="overall1">No geral, o estágio correu muito bem. Toda a gente foi muito simpática e o ambiente era excelente. É um lugar muito acolhedor e com um bom espírito de entreajuda. Aprendi muitas coisas novas e tive a oportunidade de aplicar os meus conhecimentos na prática, o que foi muito entusiasmante. Uma coisa que eu, pessoalmente, preferiria seria um espaço de escritório mais privado — gosto mais de escritórios fechados do que de espaços abertos. É tudo. Recomendaria este local a quem estiver à procura de um estágio.</li>
+        
+      </ul>
+    </div>
+  </section>
+
+ 
+  <footer>
+    <p data-translate="thanks">Obrigado por explorar minha jornada de estágio!</p>
+    <p data-translate="connect">Conecte-se comigo no <a href="https://iempror.github.io/site/" data-translate="my_website">meu site</a>.</p>
+ 
+  </footer>
+
+  <script>
+    
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+   
+    const savedTheme = localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    
+  
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+    
+  
+    function updateThemeIcon(theme) {
+      const icon = themeToggle.querySelector('i');
+      if (theme === 'dark') {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+    }
+    
+    
+    const languageToggle = document.getElementById('languageToggle');
+    let currentLanguage = localStorage.getItem('language') || 'pt';
+    
+    
+    const translations = {
+      'pt': {
+        'about': 'Sobre',
+        'weekly_progress': 'Relatório Semanal',
+        'skills': 'Habilidades',
+        'evaluation': 'Avaliação',
+        'title': 'Minha Jornada de Estágio',
+        'subtitle': 'Olá, eu sou <strong>Ronish</strong>, um desenvolvedor e programador apaixonado. Esta é minha jornada de 9 semanas na <a href="https://rato-adcc.pt/pt"><strong>Rato - ADCC!<img src="images/logo.png" class="company-logo" alt="RATO-ADCC Logo"></strong></a>',
+        'weekly_description': 'Análise detalhada das minhas tarefas semanais, aprendizagens e desafios durante o estágio.',
+        'completion': 'Conclusão do Estágio',
+        'week': 'Semana',
+        'week1': 'Semana 1',
+        'week2': 'Semana 2',
+        'week3': 'Semana 3',
+        'week4': 'Semana 4',
+        'week5': 'Semana 5',
+        'week6': 'Semana 6',
+        'week7': 'Semana 7',
+        'week8': 'Semana 8',
+        'week9': 'Semana 9',
+        'tasks': 'Tarefas',
+        'learnings': 'Aprendizados',
+        'challenges': 'Desafios',
+        'notes': 'Notas',
+        'week1_tasks': 'Integração na equipe',
+        'week1_learnings': 'Explorei ferramentas como Joomla (um sistema de gerenciamento de conteúdo para sites)',
+        'week1_challenges': 'Nenhum obstáculo significativo encontrado',
+        'week1_notes': 'Me sentindo entusiasmado com a jornada pela frente',
+        'week2_tasks': 'Stack MERN',
+        'week2_learnings': 'Comecei a aprender a stack MERN (MongoDB, Express, React, Node.js)',
+        'week2_challenges': 'Nenhum obstáculo significativo encontrado',
+        'week2_notes': 'Me tornando mais confiante e confortável',
+        'week3_tasks': 'Aplicação BookStore',
+        'week3_learnings': 'Construí uma aplicação web básica usando a stack MERN e integrei APIs externas com funcionalidade CRUD',
+        'week3_challenges': 'Desafios na implementação eficaz da stack MERN',
+        'week3_notes': 'Ganhando experiência valiosa através do trabalho prático',
+        'week4_tasks': 'Jogo Campo Minado',
+        'week4_learnings': 'Criei um jogo baseado em navegador usando HTML, CSS e JavaScript',
+        'week4_challenges': 'Nenhum obstáculo significativo encontrado',
+        'week4_notes': 'Realmente gostei do processo criativo',
+        'week5_tasks': 'Site de Relatório',
+        'week5_learnings': 'Comecei a construir um site pessoal incluindo atualizações de progresso semanal',
+        'week5_challenges': 'Desafios de design e layout',
+        'week5_notes': 'Gostei muito do processo de desenvolvimento',
+        'week6_tasks': 'Finalizar Campo Minado',
+        'week6_learnings': 'Aprimorando o design visual e trabalhando em elementos gráficos',
+        'week6_challenges': 'Criar um design atraente e funcional',
+        'week6_notes': 'Aprendendo muito sobre design de jogos',
+        'week7_tasks': 'Correção Jogo de Cartas',
+        'week7_learnings': 'Corrigi um jogo de cartas feito por um estagiário anterior. Otimizei o código e tornei-o mais fácil de editar.',
+        'week7_challenges': 'Nenhum obstáculo significativo encontrado',
+        'week7_notes': 'Empolgante trabalhar em um jogo para promover a empresa',
+        'week8_tasks': 'Jogo Creative Cards',
+        'week8_learnings': 'Criei um novo jogo de cartas chamado Creative Cards, onde tiras uma carta aleatória e ela dá-te uma pergunta.',
+        'week8_challenges': 'A tornar o design responsivo para dispositivos móveis e a garantir que o layout funciona bem em vários dispositivos.',
+        'week8_notes': 'Divertido trabalhar em mecânicas de jogo criativas',
+        'week9_tasks': 'Ajustes Finais',
+        'week9_learnings': 'Revisão geral de tudo o que aprendi e fiz.',
+        'week9_challenges': 'Nenhum obstáculo significativo encontrado',
+        'week9_notes': 'Momento de reflexão sobre todo o progresso',
+        'skills_used': 'Habilidades Utilizadas',
+        'skills_description': 'Habilidades técnicas utilizadas e adquiridas durante meu período de estágio na Rato - ADCC.',
+        'advanced': 'Avançado',
+        'intermediate': 'Intermediário',
+        'evaluation_title': 'Avaliação',
+        'evaluation_description': 'Refletindo sobre meu estágio, adquiri habilidades práticas e insights que moldarão minha carreira.',
+        'week1_2': 'Semana 1-2',
+        'week1_2_text': 'Nas primeiras duas semanas, conheci meu mentor e recebi um tour pelo escritório. Embora o ambiente geral fosse acolhedor, senti que o espaço poderia se beneficiar com um pouco mais de privacidade. Também fui informado sobre minhas responsabilidades no estágio e tive minha primeira introdução ao JOOMLA, que foi uma oportunidade emocionante de aprendizado.',
+        'week3_4': 'Semana 3-4',
+        'week3_4_text': 'Nas semanas seguintes, tive a oportunidade de conhecer um desenvolvedor profissional de stack MERN que ofereceu orientação sobre como aprender efetivamente a stack MERN e sugeriu tarefas práticas para melhorar meu entendimento. Ele foi acessível e solidário durante nossas interações.',
+        'week5_6': 'Semana 5-6',
+        'week5_6_text': 'Durante estas semanas, mergulhei no desenvolvimento de jogos web, começando com um jogo de campo minado. Foi desafiador criar um design atraente, mas extremamente gratificante ver o jogo tomar forma. Também comecei a trabalhar em meu site pessoal, documentando meu progresso semanal.',
+        'week7_8': 'Semana 7-8',
+        'week7_8_text': 'Trabalhei nos gráficos do Minesweeper e corrigi bugs no jogo de cartas. Também comecei o Creative Cards, um jogo onde se tiram cartas aleatórias.',
+        'week9': 'Semana 9',
+        'week9_text': 'A semana final foi dedicada a polir todos os projetos, garantir que tudo estivesse funcionando perfeitamente e concluir este site de relatório. Foi um momento de reflexão sobre todo o progresso feito durante essas 9 semanas e como cada desafio me tornou um desenvolvedor melhor.',
+        'overall': 'No geral',
+        'overall1': 'No geral, o estágio correu muito bem. Toda a gente foi muito simpática e o ambiente era excelente. É um lugar muito acolhedor e com um bom espírito de entreajuda. Aprendi muitas coisas novas e tive a oportunidade de aplicar os meus conhecimentos na prática, o que foi muito entusiasmante. Uma coisa que eu, pessoalmente, preferiria seria um espaço de escritório mais privado — gosto mais de escritórios fechados do que de espaços abertos. É tudo. Recomendaria este local a quem estiver à procura de um estágio.',
+         'thanks':'Obrigado!',
+        'connect': 'Conecte-se comigo no <a href="https://iempror.github.io/site/">meu site</a>.',
+        'my_website': 'meu site'
+      },
+      'en': {
+        'about': 'About',
+        'weekly_progress': 'Weekly Report',
+        'skills': 'Skills',
+        'evaluation': 'Evaluation',
+        'title': 'My Internship',
+       'subtitle': 'Hi, I\'m <strong>Ronish</strong>, a passionate developer and programmer. Here\'s my 9-week internship at <a href="https://rato-adcc.pt/pt"><strong>Rato - ADCC!<img src="images/logo.png" class="company-logo" alt="RATO-ADCC Logo"></strong></a>',
+        'weekly_description': 'Breakdown of my weekly tasks, learnings and challenges during the internship.',
+        'completion': 'Internship Completion',
+        'week': 'Week',
+        'week1': 'Week 1',
+        'week2': 'Week 2',
+        'week3': 'Week 3',
+        'week4': 'Week 4',
+        'week5': 'Week 5',
+        'week6': 'Week 6',
+        'week7': 'Week 7',
+        'week8': 'Week 8',
+        'week9': 'Week 9',
+        'tasks': 'Tasks',
+        'learnings': 'Learnings',
+        'challenges': 'Challenges',
+        'notes': 'Notes',
+        'week1_tasks': 'Onboarding the team',
+        'week1_learnings': 'Explored tools such as Joomla (a content management system for websites)',
+        'week1_challenges': 'No major obstacles encountered',
+        'week1_notes': 'Feeling enthusiastic about the journey ahead',
+        'week2_tasks': 'MERN stack',
+        'week2_learnings': 'Started learning the MERN stack (MongoDB, Express, React, Node.js)',
+        'week2_challenges': 'No major obstacles encountered',
+        'week2_notes': 'Becoming more confident and comfortable',
+        'week3_tasks': 'BookStore Web Application',
+        'week3_learnings': 'Built a basic web application using the MERN stack and integrated external APIs with CRUD functionality',
+        'week3_challenges': 'Faced challenges implementing MERN stack effectively',
+        'week3_notes': 'Gaining valuable experience through practical work',
+        'week4_tasks': 'Minesweeper Game',
+        'week4_learnings': 'Created a browser-based game using HTML, CSS, and JavaScript',
+        'week4_challenges': 'No major obstacles encountered',
+        'week4_notes': 'Really enjoyed the creative process',
+        'week5_tasks': 'Report site',
+        'week5_learnings': 'Started building a personal site including weekly progress updates',
+        'week5_challenges': 'Working through design and layout challenges',
+        'week5_notes': 'Thoroughly enjoyed the development process',
+        'week6_tasks': 'Finishing Minesweeper',
+        'week6_learnings': 'Enhancing visual design and working on graphic elements',
+        'week6_challenges': 'Creating an attractive and functional design',
+        'week6_notes': 'Learning a lot about game design',
+        'week7_tasks': 'Fixing card game',
+        'week7_learnings': 'Fixed a card game made by a previous intern. Optimized the code and made it easier to edit.',
+        'week7_challenges': 'No major obstacles encountered',
+        'week7_notes': 'Exciting to work on a game to promote the company',
+        'week8_tasks': 'Creative Cards game',
+        'week8_learnings': 'Created a new card game called Creative Cards, where you draw a random card and it gives you a question.',
+        'week8_challenges': 'Making it responsive for mobile and ensuring the layout works well across different devices.',
+        'week8_notes': 'Fun working on creative game mechanics',
+        'week9_tasks': 'Final touches',
+        'week9_learnings': 'Overall review of everything I learned and did',
+        'week9_challenges': 'Ensuring everything is polished and complete',
+        'week9_notes': 'No major obstacles encountered',
+        'skills_used': 'Skills Used',
+        'skills_description': 'Technical skills used and acquired during my internship period at Rato - ADCC.',
+        'advanced': 'Advanced',
+        'intermediate': 'Intermediate',
+        'evaluation_title': 'Evaluation',
+        'evaluation_description': 'Reflecting on my internship, I\'ve gained practical skills and insights that will shape my career.',
+        'week1_2': 'Week 1-2',
+        'week1_2_text': 'During the first two weeks, I got acquainted with my mentor and received a tour of the office. While the overall environment was welcoming, I felt the space could benefit from a bit more privacy. I was also briefed on my internship responsibilities and had my first introduction to JOOMLA, which was an exciting learning opportunity.',
+        'week3_4': 'Week 3-4',
+        'week3_4_text': 'In the following weeks, I had the opportunity to meet a professional MERN stack developer who offered guidance on how to effectively learn the MERN stack and suggested practical tasks to enhance my understanding. He was approachable and supportive throughout our interactions.',
+        'week5_6': 'Week 5-6',
+        'week5_6_text': 'During these weeks, I dove into web game development, starting with a minesweeper game. It was challenging to create an attractive design but extremely rewarding to see the game take shape. I also started working on my personal site, documenting my weekly progress.',
+        'week7_8': 'Week 7-8',
+        'week7_8_text': 'I worked on the graphics for Minesweeper and fixed bugs in the card game. I also started Creative Cards, a game where you draw random cards.',
+        'week9': 'Week 9',
+        'week9_text': 'The final week was dedicated to polishing all projects, ensuring everything worked perfectly, and completing this report site. It was a time to reflect on all the progress made during these 9 weeks and how each challenge made me a better developer.',
+        'overall': 'Overall',
+        'overall1': 'Overall, the internship went well. Everyone was very friendly, and the environment was amazing. It’s a very welcoming and supportive place. I learned a lot of new things and had the opportunity to apply my knowledge in real-life situations, which was very exciting. One thing I would personally prefer is a more private office space — I tend to like closed offices rather than open-plan ones. That’s all. I would definitely recommend this place to anyone looking for an internship.',
+        'thanks':'Thank you!',
+        'connect': 'Connect with me on <a href="https://iempror.github.io/site/">my website</a>.',
+        'my_website': 'my website'
+      }
+    };
+
+ 
+    function applyTranslations(lang) {
+      document.documentElement.lang = lang;
+      const elements = document.querySelectorAll('[data-translate]');
+      
+      elements.forEach(element => {
+        const key = element.getAttribute('data-translate');
+        if (translations[lang] && translations[lang][key]) {
+          if (element.innerHTML.includes('<strong>') || element.innerHTML.includes('<a href')) {
+            
+            const temp = document.createElement('div');
+            temp.innerHTML = translations[lang][key];
+            element.innerHTML = translations[lang][key];
+          } else {
+            element.textContent = translations[lang][key];
+          }
+        }
+      });
+      
+      
+      localStorage.setItem('language', lang);
+    }
+
+    languageToggle.addEventListener('click', () => {
+      currentLanguage = currentLanguage === 'pt' ? 'en' : 'pt';
+      applyTranslations(currentLanguage);
+    });
+
+    
+    applyTranslations(currentLanguage);
+    
+    
+    function createBgCircles() {
+      const bgAnimation = document.getElementById('bg-animation');
+      const circleCount = 15;
+      
+      for (let i = 0; i < circleCount; i++) {
+        const circle = document.createElement('div');
+        circle.classList.add('bg-circle');
+        
+        
+        const size = Math.random() * 200 + 100;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        
+        
+        circle.style.left = `${Math.random() * 100}%`;
+        circle.style.top = `${Math.random() * 100}%`;
+        
+        
+        circle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        
+        
+        circle.style.animationDelay = `${Math.random() * 5}s`;
+        
+        bgAnimation.appendChild(circle);
+      }
+    }
+    
+    
+    function setupScrollAnimations() {
+      const sections = document.querySelectorAll('.section');
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            
+            
+            if (entry.target.id === 'progress') {
+              const progressFill = document.querySelector('.progress-fill');
+              progressFill.style.width = progressFill.getAttribute('data-width') + '%';
+            }
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+      
+      sections.forEach(section => observer.observe(section));
+      timelineItems.forEach(item => observer.observe(item));
+    }
+    
+    
+    function setupNavbarEffect() {
+      const navbar = document.getElementById('navbar');
+      let lastScroll = 0;
+      
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll <= 0) {
+          navbar.classList.remove('scrolled');
+          return;
+        }
+        
+        if (currentScroll > lastScroll && !navbar.classList.contains('scrolled-down')) {
+         
+          navbar.style.transform = 'translateY(-100%)';
+          navbar.classList.add('scrolled-down');
+        } else if (currentScroll < lastScroll && navbar.classList.contains('scrolled-down')) {
+          
+          navbar.style.transform = 'translateY(0)';
+          navbar.classList.remove('scrolled-down');
+        }
+        
+        if (currentScroll > 100) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+        
+        lastScroll = currentScroll;
+      });
+    }
+    
+
+function setupGameModal() {
+  const modal = document.getElementById('gameModal');
+  const modalClose = document.getElementById('modalClose');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalImages = document.getElementById('modalImages');
+  const clickableCells = document.querySelectorAll('td.clickable');
+  
+  
+  const gameImages = {
+    1: [],
+    2: [], 
+    3: [
+      { src: 'images/bookstore1.png', alt: 'First game screenshot' },
+      { src: 'images/bookstore2.png', alt: '2nd game screenshot' }
+    ],
+    4: [
+      { src: 'images/Minesweeper2.png', alt: 'Minesweeper game screenshot' }
+      
+    ],
+    5: [], 
+    6: [ { src: 'images/Minesweeper.png', alt: 'Minesweeper game screenshot' }
+
+    ],
+    7: [
+       { src: 'images/Cartas.png', alt: 'Minesweeper game screenshot' }
+     
+    ],
+    8: [
+      { src: 'images/Cards.png', alt: 'Creative Cards game screenshot' }
+    ],
+    9: [] 
+  };
+  
+  
+  clickableCells.forEach(cell => {
+    const week = cell.getAttribute('data-week');
+    if (gameImages[week] && gameImages[week].length > 0) {
+      cell.classList.add('has-images');
+      cell.setAttribute('data-tooltip', 'Click to see images');
+    }
+  });
+  
+
+  modalClose.addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+  
+  // Set up click handlers for each week cell
+  clickableCells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const week = cell.getAttribute('data-week');
+      const weekImages = gameImages[week];
+      
+      if (weekImages && weekImages.length > 0) {
+        modalTitle.textContent = 'Week ' + week;
+        modalImages.innerHTML = '';
+        
+        weekImages.forEach(img => {
+          const imgElement = document.createElement('img');
+          imgElement.src = img.src;
+          imgElement.alt = img.alt;
+          imgElement.classList.add('modal-image');
+          modalImages.appendChild(imgElement);
+        });
+        
+        modal.classList.add('active');
+      }
+    });
+  });
+} // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+      createBgCircles();
+      setupScrollAnimations();
+      setupNavbarEffect();
+      setupGameModal();
+      
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
